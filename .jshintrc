@@ -8,6 +8,11 @@
     "strict": true,
     "undef": true,
     "unused": true,
-    "predef": ["-Promise", "JSON"]
+    "browser": true,
+    "globals": {
+        "$": false,
+        "jQuery": false,
+        "-Promise": false,
+        "JSON": false
+    }
 }
-
