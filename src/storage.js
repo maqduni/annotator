@@ -59,6 +59,48 @@ exports.debug = function () {
         },
 
         configure: function (registry) {
+            trace('configure', this);
+            registry.registerUtility(this, 'storage');
+        }
+    };
+};
+
+
+/**
+ * function:: custom()
+ *
+ * A storage component that can be used to connect any external annotation store
+ * to Annotator
+ *
+ * Use as an extension module::
+ *
+ *     app.include(annotator.storage.custom);
+ *
+ */
+exports.custom = function (hooks) {
+    if (!hooks) {
+        console.error('Hooks must be provided');
+    }
+
+    return {
+        create: function (annotation) {
+            annotation.id = id();
+            return hooks.create(annotation);
+        },
+
+        update: function (annotation) {
+            return hooks.update(annotation);
+        },
+
+        'delete': function (annotation) {
+            return hooks.delete(annotation);
+        },
+
+        query: function (queryObj) {
+            return hooks.query(queryObj);
+        },
+
+        configure: function (registry) {
             registry.registerUtility(this, 'storage');
         }
     };
